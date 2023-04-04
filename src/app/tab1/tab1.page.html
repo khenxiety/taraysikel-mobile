@@ -1,17 +1,62 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
+    <ion-title slot="start">
+      <div class="nav-location">
+        <ion-icon name="location-sharp"></ion-icon>
+        <span text-ellipsis="20" *ngIf="currentPosition">{{currentPosition?.address?.suburb +', '+currentPosition?.address?.road +' '+currentPosition?.address?.city}}</span>
+      </div>
+
     </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button><ion-icon name="notifications-outline"></ion-icon></ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="header">
+    <div class="img-bg">
+      <img src="assets/taal-arch.jpg" alt="">
+      <div class="black-gradient"></div>
+    </div>
+    <div class="search-form">
+      <ion-grid class="ion-padding">
+        <ion-row>
+          <ion-col>
+            <h4>Where do you want to go?</h4>
+            <div class="form ion-elevation-4">
+              <ion-input label-placement="end" fill="outline" placeholder="Explore now"></ion-input>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+
+  <ion-grid class="ion-margin-top ">
+    <ion-row class="ion-margin-top ">
+      <ion-col class="flex">
+        <swiper-container [slidesPerView]="4">
+          <swiper-slide *ngFor="let button of buttons">
+            <div class="button">
+              <ion-button (click)="button?.action()"><ion-icon [name]="button.logo"></ion-icon></ion-button>
+              <ion-label>{{button.title}}</ion-label>
+            </div>
+          </swiper-slide>
+        </swiper-container>
+      </ion-col>
+    </ion-row>
+
+    <app-slider [data]="popularDestinations" [categoryName]="'Popular Destinations'"></app-slider>
+    <app-slider [data]="popularDestinations" [categoryName]="'Explore!'"></app-slider>
+
+    
+
+  </ion-grid>
+
+
+
 </ion-content>

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "taratsikel": {
+      "hosting": {
+        "app": [
+          "taratsikel"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "taratsikel"
+  }
+}

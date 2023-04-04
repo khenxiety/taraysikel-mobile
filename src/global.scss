@@ -24,3 +24,70 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+*{
+    font-family: 'Poppins', sans-serif;
+}
+swiper-container {
+    --swiper-pagination-bullet-inactive-color: var(--ion-color-step-200, #cccccc);
+    --swiper-pagination-color: var(--ion-color-primary, #3880ff);
+    --swiper-pagination-progressbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.25);
+    --swiper-scrollbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.1);
+    --swiper-scrollbar-drag-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.5);
+  }
+  
+  swiper-slide {
+    display: flex;
+    position: relative;
+  
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+  
+    width: 100px;
+    height: 100%;
+  
+    font-size: 18px;
+  
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  swiper-slide img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
+
+//   ion-content {
+//     --offset-bottom: auto!important;
+//     --overflow: hidden;
+//     overflow: auto;
+//     &::-webkit-scrollbar {
+//       display: none;
+//     }
+//   }
+
+
+// ion-content {
+//     --offset-bottom: auto !important;
+//     --overflow: auto;
+//     --background: #F7F7FA;
+//     overflow: auto;
+  
+//     &::part(background) {
+//       bottom: 0;
+//     }
+  
+//     &::-webkit-scrollbar {
+//       display: none;
+//       scrollbar-width: none;
+//     }
+//   }
+// ion-content {
+//     width: calc(100% + 15px);
+//   }
+//   ion-content::part(scroll) {
+//     padding-right: 1px;
+//   }
