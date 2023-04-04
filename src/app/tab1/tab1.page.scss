@@ -7,6 +7,24 @@ ion-toolbar{
             font-size: 9px;font-weight: 400;
         }
     }
+
+    ion-buttons{
+
+        ion-button{
+            position: relative;
+            ion-icon{
+                font-size: 25px
+            }
+            ion-badge{
+                position: absolute;
+                top: 3px;
+                right: -3px;
+                font-size: 9px;
+
+                border-radius: 100%;
+            }
+        }
+    }
 }
 
 
@@ -73,9 +91,28 @@ ion-content{
                 background-color: #fff;
                 padding-block: 1px;
                 padding-inline: 10px;
-
+                position: relative;
                 border-radius: 8px;
                 box-shadow: 0 10px 61px rgba(0,0,0,0.19), 0 3px 6px rgba(0,0,0,0.23);
+
+                .search-btn{
+                    position: absolute;
+                    right: 15px;
+                    bottom: 0;
+                    top: 0;
+                    background-color: none;
+                    background: transparent;
+                    border: none;
+                    z-index: 3;
+
+                    ion-icon{
+                        font-size: 16px;
+                        color: #666666;
+                    }
+                }
+
+
+
 
             }
         }

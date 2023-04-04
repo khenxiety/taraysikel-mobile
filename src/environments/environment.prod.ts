@@ -7,5 +7,6 @@ export const environment = {
     authDomain: 'taratsikel.firebaseapp.com',
     messagingSenderId: '626299787706',
   },
-  production: true
+  production: true,
+  geolocationLink:'https://nominatim.openstreetmap.org/'
 };

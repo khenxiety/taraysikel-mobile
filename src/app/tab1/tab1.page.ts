@@ -2,15 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { SliderPage } from '../components/slider/slider.page';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { GeolocationService } from '../services/geolocation.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [IonicModule,CommonModule,SliderPage],
+  imports: [IonicModule,CommonModule,SliderPage,ReactiveFormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers:[Geolocation]
+  providers:[GeolocationService,Geolocation]
   
 })
 
@@ -39,13 +42,13 @@ export class Tab1Page {
     },
     {
       title:'Reminders',
-      logo:'pricetag-sharp',
+      logo:'notifications-sharp',
       route:'/',
       action: this.test.bind(this)
     },
     {
       title:'History',
-      logo:'pricetag-sharp',
+      logo:'time-sharp',
       route:'/',
       action: this.test.bind(this)
     },
@@ -54,17 +57,17 @@ export class Tab1Page {
   public popularDestinations:any[]=[
     {
       img:'assets/basilica.jpg',
-      title:'Taal',
+      title:'Basilica',
       route:'/booking-page'
     },
     {
       img:'assets/basilica.jpg',
-      title:'Taal',
+      title:'Galleria',
       route:'/booking-page'
     },
     {
       img:'assets/basilica.jpg',
-      title:'Taal',
+      title:'Municipal',
       route:'/booking-page'
     },
     {
@@ -73,41 +76,37 @@ export class Tab1Page {
       route:'/booking-page'
     },
   ]
+
+  public searchForm:FormGroup = new FormGroup({
+    searchValue:new FormControl('')
+  })
+
+
   public currentPosition:any
-  constructor(private geo:Geolocation) {
+  constructor( private router:Router,private location:GeolocationService) {
 
     this.getCurrentLocation()
+
+  }
+
+  onSearch():void{
+    console.log(this.searchForm.get('searchValue')?.value)
+
+  }
+
+  onNavigate(route:string){
+    this.router.navigate([route])
   }
 
   async test():Promise<void>{
-    try {
-      const geoposition = await this.geo.getCurrentPosition()
-
-      const {longitude, latitude} = geoposition.coords
-      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
-      const response = await fetch(url);
-      const json = await response.json();
-      console.log('Address: ', json.display_name);
-      this.currentPosition = json
-      console.log(longitude, latitude)
-    } catch (error) {
-      console.error(error)
-      
-    }
+    console.log(';test')
    
   }
 
   async getCurrentLocation():Promise<void>{
     try {
-      const geoposition = await this.geo.getCurrentPosition()
-
-      const {longitude, latitude} = geoposition.coords
-      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
-      const response = await fetch(url);
-      const json = await response.json();
-      console.log('Address: ', json);
-      this.currentPosition = json
-      console.log(longitude, latitude)
+      const geoposition = await this.location.getGeolocation()
+      this.currentPosition = geoposition
     } catch (error) {
       console.error(error)
       

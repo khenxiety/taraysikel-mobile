@@ -1,4 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { HttpClientModule} from '@angular/common/http';
+
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { AppComponent } from './app.component';
@@ -26,6 +28,7 @@ register();
   declarations: [AppComponent, TextEllipsisDirective],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(),
     CommonModule,
     RouterModule.forRoot(routes),

@@ -3,13 +3,17 @@
     <ion-title slot="start">
       <div class="nav-location">
         <ion-icon name="location-sharp"></ion-icon>
-        <span text-ellipsis="20" *ngIf="currentPosition">{{currentPosition?.address?.suburb +', '+currentPosition?.address?.road +' '+currentPosition?.address?.city}}</span>
+        <span text-ellipsis="20" *ngIf="currentPosition">{{currentPosition?.address?.road +' '+currentPosition?.address?.city}}</span>
       </div>
 
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button><ion-icon name="notifications-outline"></ion-icon></ion-button>
+     
+      <ion-button (click)="onNavigate('/notification-page')" ><ion-icon name="notifications-outline"></ion-icon>  
+        <ion-badge slot="end" color="danger">2</ion-badge>
+      
+      </ion-button>
     </ion-buttons>
 
   </ion-toolbar>
@@ -26,8 +30,12 @@
         <ion-row>
           <ion-col>
             <h4>Where do you want to go?</h4>
-            <div class="form ion-elevation-4">
-              <ion-input label-placement="end" fill="outline" placeholder="Explore now"></ion-input>
+            <div class="form ion-elevation-4" [formGroup]="searchForm">
+              <ion-input  label-placement="end" fill="outline" placeholder="Explore now" formControlName="searchValue"></ion-input>
+
+              <button class="search-btn" (click)="onSearch()">
+                <ion-icon name="search-sharp"></ion-icon>
+              </button>
             </div>
           </ion-col>
         </ion-row>
