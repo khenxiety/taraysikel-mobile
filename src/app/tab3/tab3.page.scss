@@ -1,6 +1,4 @@
-ion-icon{
-    color: #ff904d;
-}
+
 
 ion-list{
     ion-list-header {
@@ -8,5 +6,29 @@ ion-list{
     
             font-weight: 600;
         }
+        
     }
+    ion-item{
+        .icon{
+            padding: 5px;
+            background: #e5e5e5;
+            border-radius: 100%;
+            width: 33px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+            margin-right: 16px;
+            ion-icon{
+                color: #909090;
+                font-size: 22px;
+            }
+        }
+    }
+    
+}
+ion-row{
+        ion-button{
+            --ion-color-primary: #ff904d;
+        }
 }

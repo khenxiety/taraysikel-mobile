@@ -1,53 +1,66 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Profile
-    </ion-title>
+    <ion-title> Profile </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list lines="none">
-    
     <ion-item>
-      <ion-icon slot="start" name="person-circle"></ion-icon>
-        <ion-label color="dark">Username</ion-label>
+      <div class="icon">
+        <ion-icon slot="start" name="person-circle"></ion-icon>
+      </div>
+      <ion-label color="dark">Username</ion-label>
     </ion-item>
-    
   </ion-list>
-  
+
   <ion-list lines="none">
     <ion-list-header lines="none">
       <ion-label>General Settings</ion-label>
     </ion-list-header>
     <ion-item>
-      <ion-icon slot="start" name="moon-sharp"></ion-icon>
-        <ion-label color="dark">Dark mode</ion-label>
+      <div class="icon">
+        <ion-icon slot="start" name="moon-sharp"></ion-icon>
+      </div>
+      <ion-label color="dark">Dark mode</ion-label>
     </ion-item>
     <ion-item>
-      <ion-icon slot="start" name="people-sharp"></ion-icon>
-        <ion-label color="dark">Customer Service</ion-label>
+      <div class="icon">
+        <ion-icon slot="start" name="people-sharp"></ion-icon>
+      </div>
+      <ion-label color="dark">Customer Service</ion-label>
     </ion-item>
     <ion-item>
-      <ion-icon slot="start" name="globe-sharp"></ion-icon>
-        <ion-label color="dark">Language</ion-label>
+      <div class="icon">
+        <ion-icon slot="start" name="globe-sharp"></ion-icon>
+      </div>
+      <ion-label color="dark">Language</ion-label>
     </ion-item>
     <ion-item>
-      <ion-icon slot="start" name="help-circle-sharp"></ion-icon>
-        <ion-label color="dark">About</ion-label>
+      <div class="icon">
+        <ion-icon slot="start" name="help-circle-sharp"></ion-icon>
+      </div>
+      <ion-label color="dark">About</ion-label>
     </ion-item>
     <ion-item>
-      <ion-icon slot="start" name="information-circle-sharp"></ion-icon>
-        <ion-label color="dark">Terms & conditions</ion-label>
+      <div class="icon">
+        <ion-icon slot="start" name="information-circle-sharp"></ion-icon>
+      </div>
+      <ion-label color="dark">Terms & conditions</ion-label>
     </ion-item>
     <ion-item (click)="onClick('privacy')">
-      <ion-icon slot="start" name="share-social-sharp"></ion-icon>
-        <ion-label color="dark">Privacy policy</ion-label>
+      <div class="icon">
+        <ion-icon slot="start" name="share-social-sharp"></ion-icon>
+      </div>
+      <ion-label color="dark">Privacy policy</ion-label>
     </ion-item>
-    
+    <ion-row>
+      <ion-col style="display: flex; justify-content: center">
+        <ion-button>
+          <ion-icon slot="start" name="log-out" [expand]="'block'"></ion-icon>
+          Sign Out
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-list>
-  
-  
-  
-  
 </ion-content>

@@ -12,10 +12,10 @@
       <ion-list lines="none" [formGroup]="loginForm">
         <ion-list-header class="ion-no-padding ion-margin-bottom">
           <div class="header-text ion-text-center">
-            <h1 class="ion-no-margin">Login</h1>
-            <small style="color: white">Don't have an account?</small>
+            <h1 class="ion-no-margin">Create Account</h1>
+            <small style="color: white">Already registered?</small>
             <br />
-            <a (click)="navigate('/signup-page')">Sign up here</a>
+            <a (click)="navigate('/')">Login here</a>
           </div>
         </ion-list-header>
 
@@ -33,7 +33,7 @@
             </div>
           </div>
         </ion-item>
-        <ion-item lines="none">
+        <ion-item lines="none" class="ion-margin-bottom">
           <div class="input-container">
             <label for="">Password</label>
             <div class="input ion-padding-start">
@@ -46,15 +46,22 @@
             </div>
           </div>
         </ion-item>
-        <ion-item>
-          <ion-checkbox>Remember me</ion-checkbox>
-        </ion-item>
+
         <ion-item>
           <ion-button style="width: 100%" (click)="onClick()"
-            >Log in</ion-button
+            >Sign up</ion-button
           >
         </ion-item>
       </ion-list>
     </ion-col>
+  </ion-row>
+  <ion-row class="ion-padding-horizontal">
+    <ion-col class="ion-text-center"
+      ><small
+        >By creating a profile, I agree to Tara'ysikel's
+        <a href="">Terms and Conditions</a> and
+        <a href="">Privacy Policy.</a></small
+      ></ion-col
+    >
   </ion-row>
 </ion-content>

@@ -3,26 +3,26 @@
     <ion-title slot="start">
       <div class="nav-location">
         <ion-icon name="location-sharp"></ion-icon>
-        <span text-ellipsis="20" *ngIf="currentPosition">{{currentPosition?.address?.road +' '+currentPosition?.address?.city}}</span>
+        <span text-ellipsis="20" *ngIf="currentPosition"
+          >{{currentPosition?.address?.road +'
+          '+currentPosition?.address?.city}}</span
+        >
       </div>
-
     </ion-title>
 
     <ion-buttons slot="end">
-     
-      <ion-button (click)="onNavigate('/notification-page')" ><ion-icon name="notifications-outline"></ion-icon>  
+      <ion-button (click)="onNavigate('/notification-page')"
+        ><ion-icon name="notifications-outline"></ion-icon>
         <ion-badge slot="end" color="danger">2</ion-badge>
-      
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="header">
     <div class="img-bg">
-      <img src="assets/taal-arch.jpg" alt="">
+      <img src="assets/taal-arch.jpg" alt="" />
       <div class="black-gradient"></div>
     </div>
     <div class="search-form">
@@ -31,9 +31,18 @@
           <ion-col>
             <h4>Where do you want to go?</h4>
             <div class="form ion-elevation-4" [formGroup]="searchForm">
-              <ion-input  label-placement="end" fill="outline" placeholder="Explore now" formControlName="searchValue"></ion-input>
+              <ion-input
+                label-placement="end"
+                fill="outline"
+                placeholder="Explore now"
+                formControlName="searchValue"
+              ></ion-input>
 
-              <button class="search-btn" (click)="onSearch()">
+              <button
+                class="search-btn"
+                (click)="onSearch()"
+                *ngIf="searchForm.get('searchValue')?.valid"
+              >
                 <ion-icon name="search-sharp"></ion-icon>
               </button>
             </div>
@@ -43,14 +52,15 @@
     </div>
   </div>
 
-
-  <ion-grid class="ion-margin-top ">
-    <ion-row class="ion-margin-top ">
+  <ion-grid class="ion-margin-top">
+    <ion-row class="ion-margin-top">
       <ion-col class="flex">
         <swiper-container [slidesPerView]="4">
           <swiper-slide *ngFor="let button of buttons">
             <div class="button">
-              <ion-button (click)="button?.action()"><ion-icon [name]="button.logo"></ion-icon></ion-button>
+              <ion-button (click)="button?.action()"
+                ><ion-icon [name]="button.logo"></ion-icon
+              ></ion-button>
               <ion-label>{{button.title}}</ion-label>
             </div>
           </swiper-slide>
@@ -58,13 +68,13 @@
       </ion-col>
     </ion-row>
 
-    <app-slider [data]="popularDestinations" [categoryName]="'Popular Destinations'"></app-slider>
-    <app-slider [data]="popularDestinations" [categoryName]="'Explore!'"></app-slider>
-
-    
-
+    <app-slider
+      [data]="popularDestinations"
+      [categoryName]="'Popular Destinations'"
+    ></app-slider>
+    <app-slider
+      [data]="popularDestinations"
+      [categoryName]="'Explore!'"
+    ></app-slider>
   </ion-grid>
-
-
-
 </ion-content>

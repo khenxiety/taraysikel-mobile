@@ -1,29 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import {
-  FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  FormControl,
   Validators,
+  FormGroup,
 } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.page.html',
-  styleUrls: ['./login-page.page.scss'],
+  selector: 'app-signup-page',
+  templateUrl: './signup-page.page.html',
+  styleUrls: ['./signup-page.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
 })
-export class LoginPagePage implements OnInit {
+export class SignupPagePage implements OnInit {
   public loginForm: FormGroup = new FormGroup({
     phoneNumber: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
-
-  constructor(private router: Router, private toast: ToastController) {}
+  constructor(
+    private router: Router,
+    private location: Location,
+    private toast: ToastController
+  ) {}
 
   ngOnInit() {}
 
@@ -34,14 +37,15 @@ export class LoginPagePage implements OnInit {
         this.loginForm.controls['password'].value
       );
       this.router.navigate(['/tabs']);
-      this.presentToast('bottom', 'Login success');
+      this.presentToast('bottom', 'Registration successful');
     } else {
       this.presentToast('bottom', 'Please fill up the fields');
     }
   }
+  navigate(route: string) {
+    // this.router.navigate([route]);
 
-  navigate(route: string): void {
-    this.router.navigate([route]);
+    this.location.back();
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {

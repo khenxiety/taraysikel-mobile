@@ -22,7 +22,11 @@
             }
             ion-label{
                 margin-top: 5px;
-                font-size: 14px;
+                font-size: 12px;
             }
         }
+}
+
+::ng-deep swiper-slide{
+    width: 108.3333px
 }

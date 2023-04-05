@@ -1,14 +1,18 @@
 <ion-row class="ion-padding-horizontal ion-margin-vertical category">
   <ion-col class="ion-no-padding">
     <h5 class="ion-no-margin">{{categoryName}}</h5>
-    <swiper-container class="ion-margin-top" [slidesPerView]="3">
-      <swiper-slide style="height: 125px;" *ngFor="let pd of data" >
-        <div class="card " (click)="navigate(pd?.route)">
-          <img [src]="pd?.img" alt="">
-          <ion-label >{{pd?.title}}</ion-label>
+    <swiper-container
+      class="ion-margin-top"
+      [slidesPerView]="3"
+      [freeMode]="true"
+      style=""
+    >
+      <swiper-slide style="width: 100.3333px" *ngFor="let pd of data">
+        <div class="card" (click)="navigate(pd?.route)">
+          <img [src]="pd?.img" alt="" />
+          <ion-label>{{pd?.title}}</ion-label>
         </div>
       </swiper-slide>
     </swiper-container>
-   
   </ion-col>
 </ion-row>
