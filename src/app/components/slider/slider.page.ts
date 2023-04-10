@@ -21,16 +21,24 @@ export class SliderPage implements OnInit {
   @Input() data: any[] = [];
   @Input() categoryName: string = '';
 
+  public isLoading: boolean = false;
+
   constructor(private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isLoading = true; //loading instance
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
+  }
 
   test() {
     console.log('test');
   }
 
-  navigate(route: string) {
+  navigate(route: string, id: any) {
     console.log(route);
-    this.router.navigate([route]);
+    this.router.navigate([`${route}/`, id]);
   }
 }

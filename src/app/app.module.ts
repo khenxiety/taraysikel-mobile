@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -12,7 +12,6 @@ import {
   getAnalytics,
   ScreenTrackingService,
   UserTrackingService,
-  
 } from '@angular/fire/analytics';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
@@ -22,6 +21,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { TextEllipsisDirective } from './directives/text-ellipsis.directive';
+import { IonicStorageModule } from '@ionic/storage-angular';
 register();
 
 @NgModule({
@@ -37,6 +37,7 @@ register();
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
+    IonicStorageModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [ScreenTrackingService, UserTrackingService],

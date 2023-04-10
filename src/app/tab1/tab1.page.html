@@ -3,9 +3,14 @@
     <ion-title slot="start">
       <div class="nav-location">
         <ion-icon name="location-sharp"></ion-icon>
+        <!-- <ion-skeleton-text
+          *ngIf="!currentPosition"
+          [animated]="true"
+          style="width: 80%"
+        ></ion-skeleton-text> -->
+        <ion-spinner name="crescent" *ngIf="!currentPosition"></ion-spinner>
         <span text-ellipsis="20" *ngIf="currentPosition"
-          >{{currentPosition?.address?.road +'
-          '+currentPosition?.address?.city}}</span
+          >{{currentPosition}}</span
         >
       </div>
     </ion-title>
@@ -58,10 +63,10 @@
         <swiper-container [slidesPerView]="4">
           <swiper-slide *ngFor="let button of buttons">
             <div class="button">
-              <ion-button (click)="button?.action()"
+              <ion-button (click)="navigatePage(button.route)"
                 ><ion-icon [name]="button.logo"></ion-icon
               ></ion-button>
-              <ion-label>{{button.title}}</ion-label>
+              <ion-label style="color: #4a4a4a">{{button.title}}</ion-label>
             </div>
           </swiper-slide>
         </swiper-container>

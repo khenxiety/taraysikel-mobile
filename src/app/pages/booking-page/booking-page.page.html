@@ -1,15 +1,90 @@
-<ion-header [translucent]="true" class="ion-no-border">
-<ion-toolbar >
-  <ion-buttons  slot="start">
-    <ion-back-button defaultHref="tabs"></ion-back-button>
-  </ion-buttons>
-  <ion-title>Booking</ion-title>
-</ion-toolbar>
-</ion-header>
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header class="ion-no-border" translucent>
     <ion-toolbar>
-      <ion-title size="large">booking-page</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="tabs"></ion-back-button>
+      </ion-buttons>
+      <ion-title size="large"></ion-title>
     </ion-toolbar>
   </ion-header>
+  <div class="image">
+    <img
+      style="aspect-ratio: 1; object-fit: cover; height: 73vh; width: 100%"
+      [src]="destination[0]?.img"
+      alt=""
+    />
+  </div>
+
+  <div class="booking-card">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="9">
+          <div class="header-text">
+            <h2 class="ion-no-margin">{{destination[0]?.title}}</h2>
+            <p
+              *ngIf="getLocation"
+              class="destination ion-no-margin ion-margin-top"
+            >
+              {{ locationFormat(getLocation?.display_name)}}
+            </p>
+            <p *ngIf="!getLocation">
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 100%"
+              ></ion-skeleton-text>
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 100%"
+              ></ion-skeleton-text>
+            </p>
+            <br />
+          </div>
+        </ion-col>
+        <ion-col
+          size="3"
+          class="ratings"
+          style="display: flex; align-items: center; flex-direction: column"
+        >
+          <ion-icon name="star"></ion-icon>
+          <p class="ratings-text ion-no-margin">5.0 Rates</p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <p class="description ion-no-margin ion-margin-bottom">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident
+          </p>
+          <div class="price" *ngIf="getLocation">
+            <h3 class="ion-no-margin">PHP {{price | number:'1.1-1' }}</h3>
+
+            <small *ngIf="getLocation"
+              >{{getLocation?.distanceFromCurrent | number:'1.2-2' }} km
+              ({{time? time : ''}}) from your location</small
+            >
+          </div>
+          <div class="price skeleton" *ngIf="!getLocation">
+            <h3 class="ion-no-margin">
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 100%"
+              ></ion-skeleton-text>
+            </h3>
+
+            <small
+              ><ion-skeleton-text
+                [animated]="true"
+                style="width: 80%"
+              ></ion-skeleton-text
+            ></small>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="button">
+          <ion-button [expand]="'block'">BOOK NOW</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

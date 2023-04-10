@@ -1,16 +1,42 @@
 <ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar >
-    <ion-buttons  slot="start">
+  <ion-toolbar>
+    <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs"></ion-back-button>
     </ion-buttons>
     <ion-title>Notifications</ion-title>
   </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">booking-page</ion-title>
+    </ion-toolbar>
   </ion-header>
-  <ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">booking-page</ion-title>
-      </ion-toolbar>
-    </ion-header>
-  </ion-content>
-  
+
+  <ion-list lines="inset" class="ion-no-padding" *ngIf="!isLoading">
+    <ion-item *ngFor="let notif of notifications">
+      <div class="notif-text">
+        <ion-label>{{notif.notification}}</ion-label>
+        <small>{{notif.user}}</small>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="isLoading">
+    <ion-item *ngFor="let ske of notificationsDummy">
+      <ion-label>
+        <h3>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 80%"
+          ></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 20%"
+          ></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

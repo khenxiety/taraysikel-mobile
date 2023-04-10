@@ -8,5 +8,5 @@ export const environment = {
     messagingSenderId: '626299787706',
   },
   production: true,
-  geolocationLink:'https://nominatim.openstreetmap.org/'
+  geolocationLink: 'https://nominatim.openstreetmap.org',
 };

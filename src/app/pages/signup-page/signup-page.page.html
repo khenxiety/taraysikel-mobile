@@ -1,8 +1,9 @@
 <ion-content [fullscreen]="true">
-  <ion-row class="ion-padding-vertical ion-margin-vertical">
+  <ion-row class="ion-padding-top ion-margin-top">
     <ion-col>
       <div class="title">
-        <h3 class="ion-text-center"><span>Tara</span>'ySikel</h3>
+        <img src="assets/logo.png" alt="" />
+        <h3 class="ion-text-center ion-no-margin"><span>Tara</span>'ySikel</h3>
       </div>
     </ion-col>
   </ion-row>
@@ -44,6 +45,20 @@
               >
               </ion-input>
             </div>
+            <div class="progress" *ngIf="loginForm?.get('password')?.valid">
+              <ion-text
+                [color]="textClass"
+                style="font-size: 10px; font-weight: 700"
+                >{{progressText}}
+                <span style="font-weight: 300; font-size: 92%"
+                  >{{ progressValue != 1 ?progressHintText:''}}</span
+                >
+              </ion-text>
+              <ion-progress-bar
+                [value]="progressValue"
+                [color]="textClass"
+              ></ion-progress-bar>
+            </div>
           </div>
         </ion-item>
 
@@ -56,7 +71,7 @@
     </ion-col>
   </ion-row>
   <ion-row class="ion-padding-horizontal">
-    <ion-col class="ion-text-center"
+    <ion-col class="ion-text-center" style="line-height: 14px"
       ><small
         >By creating a profile, I agree to Tara'ysikel's
         <a href="">Terms and Conditions</a> and

@@ -12,7 +12,7 @@ export const environment = {
     messagingSenderId: '626299787706',
   },
   production: false,
-  geolocationLink:'https://nominatim.openstreetmap.org/'
+  geolocationLink: 'https://nominatim.openstreetmap.org',
 };
 
 /*

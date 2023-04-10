@@ -11,7 +11,7 @@ export const routes: Routes = [
       import('./login-page/login-page.page').then((m) => m.LoginPagePage),
   },
   {
-    path: 'booking-page',
+    path: 'booking-page/:id',
     loadComponent: () =>
       import('./pages/booking-page/booking-page.page').then(
         (m) => m.BookingPagePage
@@ -23,9 +23,16 @@ export const routes: Routes = [
       import('./pages/notification-page/notification-page.page').then(
         (m) => m.NotificationPagePage
       ),
-  },  {
+  },
+  {
     path: 'signup-page',
-    loadComponent: () => import('./pages/signup-page/signup-page.page').then( m => m.SignupPagePage)
+    loadComponent: () =>
+      import('./pages/signup-page/signup-page.page').then(
+        (m) => m.SignupPagePage
+      ),
+  },  {
+    path: 'solo-booking-page',
+    loadComponent: () => import('./pages/solo-booking-page/solo-booking-page.page').then( m => m.SoloBookingPagePage)
   },
 
 ];
