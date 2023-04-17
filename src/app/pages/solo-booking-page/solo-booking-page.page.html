@@ -12,4 +12,46 @@
       <ion-title size="large">solo-booking-page</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-list>
+    <ion-item>
+      <div class="items">
+        <ion-input
+          label="Pickup:"
+          name="pickUp"
+          [(ngModel)]="pickUp"
+        ></ion-input>
+
+        <a (click)="setCurrentLocation()">Set current location</a>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <div class="items">
+        <ion-input
+          label="Drop off:"
+          name="dropOff"
+          [(ngModel)]="dropOff"
+        ></ion-input>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-select
+        aria-label="fruit"
+        placeholder="Booking type"
+        name="pickUp"
+        [(ngModel)]="type"
+      >
+        <ion-select-option value="solo">Solo</ion-select-option>
+        <ion-select-option value="shared" disabled="true"
+          >Shared</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-button expand="block" (click)="onClick()">Book now</ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>

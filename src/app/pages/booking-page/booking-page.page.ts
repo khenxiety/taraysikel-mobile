@@ -72,7 +72,7 @@ export class BookingPagePage implements OnInit {
 
   async getDestinationLocationData(): Promise<any> {
     try {
-      const currentLocation = await this.geolocation.getGeolocation();
+      // const currentLocation = await this.geolocation.getGeolocation();
 
       const response = await this.geolocation.searchLocation(
         this.destination[0]?.query

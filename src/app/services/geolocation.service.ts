@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { IonicStorageService } from './ionic-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ export class GeolocationService {
   constructor(
     private http: HttpClient,
     private geo: Geolocation,
-    private toast: ToastController
+    private toast: ToastController,
+    private ionicStorage: IonicStorageService
   ) {}
 
   public currentLocation: any;
@@ -21,6 +23,7 @@ export class GeolocationService {
       const geoposition = await this.geo.getCurrentPosition();
 
       this.currentLocation = geoposition.coords;
+      this.ionicStorage.setItem(geoposition.coords, 'currentPosition');
 
       const { longitude, latitude } = geoposition.coords;
 
@@ -47,7 +50,10 @@ export class GeolocationService {
       const json = await response.json();
 
       const { lat, lon } = json[0];
-      const distanceFromCurrent = this.getDistanceFromLatLonInKm(lat, lon);
+      const distanceFromCurrent = await this.getDistanceFromLatLonInKm(
+        lat,
+        lon
+      );
 
       return { ...json[0], distanceFromCurrent };
     } catch (error) {
@@ -56,8 +62,11 @@ export class GeolocationService {
     }
   }
 
-  getDistanceFromLatLonInKm(lat2: number, lon2: number): number {
-    const { longitude, latitude } = this.currentLocation;
+  async getDistanceFromLatLonInKm(lat2: number, lon2: number): Promise<number> {
+    if (!this.currentLocation) {
+      await this.getGeolocation();
+    }
+    const { longitude, latitude } = await this.currentLocation;
 
     const R = 6371;
     const dLat = this.deg2rad(lat2 - latitude);
