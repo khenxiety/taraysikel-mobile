@@ -81,6 +81,7 @@ export class BookingPagePage implements OnInit {
       this.price = response.distanceFromCurrent * 15;
       this.time = Helper.timeFormat(response.distanceFromCurrent);
       this.getLocation = response;
+      console.log(this.getLocation);
       return Promise.resolve(response);
     } catch (error) {}
   }

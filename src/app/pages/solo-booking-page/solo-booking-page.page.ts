@@ -6,6 +6,7 @@ import { GeolocationService } from 'src/app/services/geolocation.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { Helper } from 'src/app/helpers/helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-solo-booking-page',
@@ -17,7 +18,8 @@ import { Helper } from 'src/app/helpers/helper';
 })
 export class SoloBookingPagePage implements OnInit {
   public pickUp: string = '';
-  public pickUpCoords: any;
+  public pickUpCoordsLon: any;
+  public pickUpCoordsLat: any;
 
   public dropOff: string = '';
   public type: string = '';
@@ -25,7 +27,8 @@ export class SoloBookingPagePage implements OnInit {
   constructor(
     private geolocation: GeolocationService,
     private toast: ToastController,
-    private loadingService: LoaderService
+    private loadingService: LoaderService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -37,10 +40,8 @@ export class SoloBookingPagePage implements OnInit {
       const { display_name, lat, lon } = geoposition;
       console.log(geoposition);
       this.pickUp = Helper.extractAddress(display_name);
-      this.pickUpCoords = {
-        lat: lat,
-        long: lon,
-      };
+      this.pickUpCoordsLon = lon;
+      this.pickUpCoordsLat = lat;
     } catch (error) {
       this.presentToast('bottom', 'Cannot get location');
       this.loadingService.hide();
@@ -54,10 +55,16 @@ export class SoloBookingPagePage implements OnInit {
   onClick() {
     const bookingObj = {
       pickUp: this.pickUp,
-      pickUpCoords: this.pickUp,
+      pickUpCoordsLon: this.pickUpCoordsLon,
+      pickUpCoordsLat: this.pickUpCoordsLat,
       dropOff: this.dropOff,
       type: this.type,
+      booker: 'random id',
     };
+
+    this.router.navigate(['/solo-booking-confirmation'], {
+      queryParams: bookingObj,
+    });
     console.log(bookingObj);
   }
 

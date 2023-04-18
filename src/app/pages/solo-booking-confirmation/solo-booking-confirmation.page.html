@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Confirmation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label> Booking Location </ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <div class="item ion-padding-vertical">
+          <ion-label>Pickup: </ion-label>
+          <small>{{bookingObj.pickUp}}</small>
+        </div>
+      </ion-item>
+      <ion-item>
+        <div class="item ion-padding-vertical">
+          <ion-label>Drop off: </ion-label>
+          <small>{{locationFormat(getLocation?.display_name)}}</small>
+          <ion-skeleton-text
+            *ngIf="!getLocation"
+            [animated]="true"
+            style="width: 100%"
+          ></ion-skeleton-text>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>Distance: </ion-label>
+        <small>{{getLocation?.distanceFromCurrent | number:'1.2-2' }} km</small>
+        <ion-skeleton-text
+          *ngIf="!getLocation"
+          [animated]="true"
+          style="width: 100%"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Average time:</ion-label>
+        <small>{{time}}</small>
+        <ion-skeleton-text
+          *ngIf="!getLocation"
+          [animated]="true"
+          style="width: 100%"
+        ></ion-skeleton-text>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label> Pricing </ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <ion-label>Price: </ion-label>
+        <small>Php {{price}}</small>
+        <ion-skeleton-text
+          *ngIf="!getLocation"
+          [animated]="true"
+          style="width: 100%"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Discount</ion-label>
+        <small>None</small>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Total</ion-label>
+        <small>Php {{price}}</small>
+        <ion-skeleton-text
+          *ngIf="!getLocation"
+          [animated]="true"
+          style="width: 100%"
+        ></ion-skeleton-text>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item lines="none">
+      <ion-button style="width: 100%">Confirm Booking</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
