@@ -23,7 +23,7 @@
       <ion-item>
         <div class="item ion-padding-vertical">
           <ion-label>Drop off: </ion-label>
-          <small>{{locationFormat(getLocation?.display_name)}}</small>
+          <small *ngIf="getLocation">{{getLocation?.display_name}}</small>
           <ion-skeleton-text
             *ngIf="!getLocation"
             [animated]="true"
@@ -33,7 +33,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Distance: </ion-label>
-        <small>{{getLocation?.distanceFromCurrent | number:'1.2-2' }} km</small>
+        <small *ngIf="getLocation">{{getLocation?.distanceFromCurrent | number:'1.2-2' }} km</small>
         <ion-skeleton-text
           *ngIf="!getLocation"
           [animated]="true"
@@ -42,7 +42,7 @@
       </ion-item>
       <ion-item lines="none">
         <ion-label>Average time:</ion-label>
-        <small>{{time}}</small>
+        <small *ngIf="getLocation" >{{time}}</small>
         <ion-skeleton-text
           *ngIf="!getLocation"
           [animated]="true"
@@ -58,7 +58,7 @@
 
       <ion-item>
         <ion-label>Price: </ion-label>
-        <small>Php {{price}}</small>
+        <small *ngIf="getLocation">Php {{price}}</small>
         <ion-skeleton-text
           *ngIf="!getLocation"
           [animated]="true"
@@ -71,7 +71,7 @@
       </ion-item>
       <ion-item lines="none">
         <ion-label>Total</ion-label>
-        <small>Php {{price}}</small>
+        <small *ngIf="getLocation">Php {{price}}</small>
         <ion-skeleton-text
           *ngIf="!getLocation"
           [animated]="true"
@@ -81,7 +81,7 @@
     </ion-item-group>
 
     <ion-item lines="none">
-      <ion-button style="width: 100%">Confirm Booking</ion-button>
+      <ion-button style="width: 100%" (click)="addBooking()">Confirm Booking</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

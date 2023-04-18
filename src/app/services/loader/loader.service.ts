@@ -10,7 +10,7 @@ export class LoaderService {
 
   async show(message?: string) {
     this.loader = await this.loadingController.create({
-      message: message ? message : 'Please wait...',
+      message: message ? `${message}...` : 'Please wait...',
     });
     await this.loader.present();
   }

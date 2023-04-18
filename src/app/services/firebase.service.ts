@@ -171,12 +171,16 @@ export class FirebaseService {
     );
   }
 
-  async addData(data: any): Promise<any> {
-    const dbInstance = ref(this.db, 'data/');
+  async addData(data: any, table:string): Promise<any> {
+    const dbInstance = ref(this.db, `${table}/`);
 
     try {
       const response = await push(dbInstance, data);
-      return response;
+      return {
+        status:200,
+        message:'Booking added successfully',
+        reference:response
+      };
     } catch (error) {
       console.error(error);
       return Promise.reject(error);

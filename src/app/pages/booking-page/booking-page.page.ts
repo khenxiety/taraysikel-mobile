@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GeolocationService } from 'src/app/services/geolocation.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Helper } from 'src/app/helpers/helper';
+import { LoaderService } from 'src/app/services/loader/loader.service';
 
 @Component({
   selector: 'app-booking-page',
@@ -58,7 +59,8 @@ export class BookingPagePage implements OnInit {
   constructor(
     private location: Location,
     private activatedRoute: ActivatedRoute,
-    private geolocation: GeolocationService
+    private geolocation: GeolocationService,
+    private loaderService:LoaderService
   ) {
     this.id = this.activatedRoute.snapshot.params['id'];
   }

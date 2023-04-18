@@ -28,9 +28,11 @@ ion-list{
     
 }
 ion-row{
-        ion-button{
-            --ion-color-primary: #ff904d;
-        }
+    ion-button{
+        --ion-color-primary:#ff904d;
+        width: 90%;
+        height: 30px;
+    }
 }
 
 ion-toggle{

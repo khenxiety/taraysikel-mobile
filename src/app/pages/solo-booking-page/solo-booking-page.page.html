@@ -22,7 +22,7 @@
           [(ngModel)]="pickUp"
         ></ion-input>
 
-        <a (click)="setCurrentLocation()">Set current location</a>
+        <a class="ion-text-center" (click)="setCurrentLocation()" *ngIf="pickUp == ''">Set current location</a>
       </div>
     </ion-item>
 
@@ -36,7 +36,7 @@
       </div>
     </ion-item>
 
-    <ion-item>
+    <ion-item lines="none">
       <ion-select
         aria-label="fruit"
         placeholder="Booking type"
@@ -50,7 +50,7 @@
       </ion-select>
     </ion-item>
 
-    <ion-item>
+    <ion-item lines="none">
       <ion-button expand="block" (click)="onClick()">Book now</ion-button>
     </ion-item>
   </ion-list>
