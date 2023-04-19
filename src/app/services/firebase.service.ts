@@ -22,8 +22,8 @@ import { from, Observable } from 'rxjs';
 export class FirebaseService {
   constructor(private db: Database) { }
 
-  getDataSnapshot(): Observable<any> {
-    const dbInstance = ref(this.db, 'data/');
+  getDataSnapshot(table:string): Observable<any> {
+    const dbInstance = ref(this.db, `${table}/`);
 
     return from(
       get(dbInstance)

@@ -9,4 +9,5 @@ export const environment = {
   },
   production: true,
   geolocationLink: 'https://nominatim.openstreetmap.org',
+  mapLink:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 };

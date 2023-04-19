@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ToastService } from '../services/toast/toast.service';
 
 @Component({
   selector: 'app-login-page',
@@ -23,7 +24,7 @@ export class LoginPagePage implements OnInit {
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private router: Router, private toast: ToastController) {}
+  constructor(private router: Router, private toast: ToastService) {}
 
   ngOnInit() {}
 
@@ -34,9 +35,9 @@ export class LoginPagePage implements OnInit {
         this.loginForm.controls['password'].value
       );
       this.router.navigate(['/tabs']);
-      this.presentToast('bottom', 'Login success');
+      this.toast.presentToast('bottom', 'Login success');
     } else {
-      this.presentToast('bottom', 'Please fill up the fields');
+      this.toast.presentToast('bottom', 'Please fill up the fields');
     }
   }
 
@@ -44,13 +45,5 @@ export class LoginPagePage implements OnInit {
     this.router.navigate([route]);
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
-    const toast = await this.toast.create({
-      message: message,
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
-  }
+  
 }

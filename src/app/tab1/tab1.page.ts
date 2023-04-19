@@ -19,6 +19,7 @@ import { DecimalPipe } from '@angular/common';
 import { Helper } from '../helpers/helper';
 
 import { LoaderService } from '../services/loader/loader.service';
+import { ToastService } from '../services/toast/toast.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -45,9 +46,9 @@ export class Tab1Page {
       // action: this.test.bind(this),
     },
     {
-      title: 'Fare',
+      title: 'Bookings',
       logo: 'pricetag-sharp',
-      route: '/',
+      route: '/booking-list',
       // action: this.test.bind(this),
     },
     {
@@ -103,7 +104,7 @@ export class Tab1Page {
   constructor(
     private router: Router,
     private location: GeolocationService,
-    private toast: ToastController,
+    private toast: ToastService,
     private loadingService: LoaderService
   ) {
     this.getCurrentLocation();
@@ -129,7 +130,7 @@ export class Tab1Page {
                 .split('.')[1]
             } minutes`
           : `${this.decimalPipe.transform(time, '1.2-2')} hours`;
-      this.presentToast(
+      this.toast.presentToast(
         'bottom',
         `${this.decimalPipe.transform(
           response.distanceFromCurrent,
@@ -154,7 +155,7 @@ export class Tab1Page {
 
   navigatePage(route: any) {
     if (route == '/') {
-      this.presentToast('bottom', 'Coming soon');
+      this.toast.presentToast('bottom', 'Coming soon');
 
       return;
     }
@@ -168,21 +169,11 @@ export class Tab1Page {
 
       this.currentPosition = Helper.extractAddress(display_name);
     } catch (error) {
-      this.presentToast('bottom', 'Cannot get location');
+      this.toast.presentToast('bottom', 'Cannot get location');
       this.loadingService.hide();
 
       console.error(error);
     }
-  }
-
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: any) {
-    const toast = await this.toast.create({
-      message: message,
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
   }
 
   extractAddress(address: string): string {

@@ -22,10 +22,11 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { TextEllipsisDirective } from './directives/text-ellipsis.directive';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { MapComponent } from './components/map/map.component';
 register();
 
 @NgModule({
-  declarations: [AppComponent, TextEllipsisDirective],
+  declarations: [AppComponent, TextEllipsisDirective, MapComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

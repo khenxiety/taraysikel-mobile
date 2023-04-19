@@ -10,6 +10,8 @@ import {
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/services/loader/loader.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { RegistrationService } from 'src/app/services/registration/registration.service';
 
 @Component({
   selector: 'app-signup-page',
@@ -32,54 +34,53 @@ export class SignupPagePage implements OnInit {
   constructor(
     private router: Router,
     private location: Location,
-    private toast: ToastController,
-    private loadingService: LoaderService
+    private toast: ToastService,
+    private loadingService: LoaderService,
+    private registeratioNService:RegistrationService
   ) {}
 
   ngOnInit() {
     this.formInitialise();
   }
 
-  onClick(): void {
+  async onClick() {
     this.loadingService.show('Registering...');
     const { phoneNumber, password } = this.loginForm.controls;
-    if (!this.loginForm.valid) {
-      this.presentToast('bottom', 'Please fill up the fields');
-      setTimeout(() => {
-        this.loadingService.hide();
-      }, 300);
+    // if (!this.loginForm.valid) {
+    //   this.toast.presentToast('bottom', 'Please fill up the fields');
+    //   setTimeout(() => {
+    //     this.loadingService.hide();
+    //   }, 300);
 
-      return;
+    //   return;
+    // }
+    // if (this.progressValue < 0.66) {
+    //   const message =
+    //     this.progressText.toLowerCase() === 'very weak'
+    //       ? this.progressText.toLowerCase()
+    //       : `too ${this.progressText.toLowerCase()}`;
+    //   setTimeout(() => {
+    //     this.loadingService.hide();
+    //   }, 300);
+    //   this.toast.presentToast('bottom', `Password is ${message}`);
+    //   return;
+    // }
+    try {
+      const register = await this.registeratioNService.registerWithPhoneNumber('09770580597')
+      console.log(register)
+      console.log(phoneNumber.value, password.value);
+    // this.router.navigate(['/tabs']);
+    this.toast.presentToast('bottom', 'Registration successful');
+    } catch (error) {
+      console.log(error)
+      this.loadingService.hide();
+      
     }
-    if (this.progressValue < 0.66) {
-      const message =
-        this.progressText.toLowerCase() === 'very weak'
-          ? this.progressText.toLowerCase()
-          : `too ${this.progressText.toLowerCase()}`;
-      setTimeout(() => {
-        this.loadingService.hide();
-      }, 300);
-      this.presentToast('bottom', `Password is ${message}`);
-      return;
-    }
-    console.log(phoneNumber.value, password.value);
-    this.loadingService.hide();
-    this.router.navigate(['/tabs']);
-    this.presentToast('bottom', 'Registration successful');
+    
   }
 
   navigate(route: string) {
     this.location.back();
-  }
-
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
-    const toast = await this.toast.create({
-      message: message,
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
   }
 
   formInitialise() {

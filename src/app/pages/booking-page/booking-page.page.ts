@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { IonicModule,  } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GeolocationService } from 'src/app/services/geolocation.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Helper } from 'src/app/helpers/helper';
 import { LoaderService } from 'src/app/services/loader/loader.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-booking-page',
@@ -19,6 +20,7 @@ import { LoaderService } from 'src/app/services/loader/loader.service';
 export class BookingPagePage implements OnInit {
   private decimalPipe = new DecimalPipe('en-US');
 
+  private currentLoc:any
   public popularDestinations: any[] = [
     {
       id: 1,
@@ -60,7 +62,9 @@ export class BookingPagePage implements OnInit {
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private geolocation: GeolocationService,
-    private loaderService:LoaderService
+    private loaderService:LoaderService,
+    private router:Router,
+    private toast:ToastService
   ) {
     this.id = this.activatedRoute.snapshot.params['id'];
   }
@@ -74,8 +78,9 @@ export class BookingPagePage implements OnInit {
 
   async getDestinationLocationData(): Promise<any> {
     try {
-      // const currentLocation = await this.geolocation.getGeolocation();
+      const currentLocation = await this.geolocation.getGeolocation();
 
+      this.currentLoc = currentLocation
       const response = await this.geolocation.searchLocation(
         this.destination[0]?.query
       );
@@ -83,9 +88,10 @@ export class BookingPagePage implements OnInit {
       this.price = response.distanceFromCurrent * 15;
       this.time = Helper.timeFormat(response.distanceFromCurrent);
       this.getLocation = response;
-      console.log(this.getLocation);
       return Promise.resolve(response);
-    } catch (error) {}
+    } catch (error) {
+      this.toast.presentToast('bottom','Cannot get location, please try again')
+    }
   }
 
   onClick() {
@@ -99,5 +105,21 @@ export class BookingPagePage implements OnInit {
       ''
     );
     return locationFormatted;
+  }
+
+  book(){
+
+    const bookingObj = {
+      pickUp: this.currentLoc?.display_name,
+      pickUpCoordsLon: this.currentLoc.lon,
+      pickUpCoordsLat: this.currentLoc.lat,
+      dropOff: this.getLocation?.display_name,
+      type: 'solo',
+      booker: 'random id',
+    };
+  
+    this.router.navigate(['/solo-booking-confirmation'], {
+      queryParams: bookingObj,
+    });
   }
 }
