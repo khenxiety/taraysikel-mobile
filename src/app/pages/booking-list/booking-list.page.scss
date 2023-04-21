@@ -1,3 +1,17 @@
 ion-card-title, ion-card-subtitle{
     text-transform: capitalize;
 }
+
+ion-toolbar {
+    --background: #3f72af;
+
+    --color:var(--ion-color-primary-contrast);
+  }
+
+  .card-footer{
+
+    width: 100%;
+    display: flex;
+    align-items:center ;
+    padding: 7px 13px;
+  }

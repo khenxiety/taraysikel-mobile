@@ -13,18 +13,30 @@
       <ion-col class="ion-no-padding">
         <ion-card>
           <ion-card-header>
-            <ion-card-title >{{books?.type}} Booking</ion-card-title>
+            <ion-card-title>{{books?.type}} Booking</ion-card-title>
             <ion-card-subtitle>Status: {{books?.status}}</ion-card-subtitle>
           </ion-card-header>
-        
+
           <ion-card-content>
-            <ion-card-subtitle> <span style="font-weight: 400;">PickUp:</span>  {{books?.pickup.split(',')[0]}}</ion-card-subtitle>
-            <ion-card-subtitle><span style="font-weight: 400;">DropOff:</span>  {{books?.dropOff.split(',')[0]}}</ion-card-subtitle>
+            <ion-card-subtitle>
+              <span style="font-weight: 400">PickUp:</span>
+              {{books?.pickup.split(',')[0]}}</ion-card-subtitle
+            >
+            <ion-card-subtitle
+              ><span style="font-weight: 400">DropOff:</span>
+              {{books?.dropOff.split(',')[0]}}</ion-card-subtitle
+            >
             <small>{{books?.date}}</small>
           </ion-card-content>
-        
-          <ion-button id="open-modal" fill="clear">Details</ion-button>
-          <ion-button fill="clear">Cancel</ion-button>
+          <div class="card-footer">
+            <ion-button
+              id="open-modal"
+              style="--ion-color-primary: #ff904d"
+              (click)="viewDetails(books)"
+              >Details</ion-button
+            >
+            <ion-button fill="clear" color="danger">Cancel</ion-button>
+          </div>
         </ion-card>
       </ion-col>
     </ion-row>
@@ -45,7 +57,11 @@
       <ion-content class="ion-padding">
         <ion-item>
           <ion-label position="stacked">Enter your name</ion-label>
-          <ion-input type="text" placeholder="Your name" [(ngModel)]="name"></ion-input>
+          <ion-input
+            type="text"
+            placeholder="Your name"
+            [(ngModel)]="name"
+          ></ion-input>
         </ion-item>
       </ion-content>
     </ng-template>

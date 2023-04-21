@@ -1,4 +1,10 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
@@ -19,9 +25,9 @@ import { ToastService } from 'src/app/services/toast/toast.service';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [Geolocation, GeolocationService,MapComponent],
+  providers: [Geolocation, GeolocationService, MapComponent],
 })
-export class SoloBookingConfirmationPage implements OnInit, AfterViewInit  {
+export class SoloBookingConfirmationPage implements OnInit, AfterViewInit {
   private map: any;
   public bookingObj: any;
   public destination: any;
@@ -37,13 +43,14 @@ export class SoloBookingConfirmationPage implements OnInit, AfterViewInit  {
     private router: Router,
 
     private geolocation: GeolocationService,
-    private firebaseService:FirebaseService,
-    private loaderService:LoaderService,
-    private toast:ToastService,
-    private location:Location
+    private firebaseService: FirebaseService,
+    private loaderService: LoaderService,
+    private toast: ToastService,
+    private location: Location
   ) {
     const myObject = this.route.snapshot.queryParams;
     this.bookingObj = myObject;
+    console.log(this.bookingObj);
   }
 
   ngOnInit() {
@@ -52,38 +59,51 @@ export class SoloBookingConfirmationPage implements OnInit, AfterViewInit  {
   ngAfterViewInit(): void {
     // this.initMap();
   }
-  
-  
+
+  back() {
+    this.location.back();
+  }
+
   initMap(): void {
-
     try {
-
       const redIcon = new L.Icon({
-        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png',
+        iconUrl:
+          'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        shadowUrl:
+          'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
         tooltipAnchor: [16, -28],
-        shadowSize: [41, 41]
+        shadowSize: [41, 41],
       });
-    
-      this.map = L.map('map').setView([this.getLocation?.lat, this.getLocation?.lon], 13);
-  
+
+      this.map = L.map('map').setView(
+        [this.getLocation?.lat, this.getLocation?.lon],
+        13
+      );
+
       L.tileLayer(environment.mapLink, {
         maxZoom: 10,
       }).addTo(this.map);
-  
-      const pickUpMarker = L.marker([this.getLocation?.lat, this.getLocation?.lon]).addTo(this.map).bindPopup('Drop Off');
-      const dropOffMarker = L.marker([this.bookingObj?.pickUpCoordsLat, this.bookingObj?.pickUpCoordsLon]).addTo(this.map).bindPopup('Pick Up');
-      dropOffMarker.setIcon(redIcon)
 
+      const pickUpMarker = L.marker([
+        this.getLocation?.lat,
+        this.getLocation?.lon,
+      ])
+        .addTo(this.map)
+        .bindPopup('Drop Off');
+      const dropOffMarker = L.marker([
+        this.bookingObj?.pickUpCoordsLat,
+        this.bookingObj?.pickUpCoordsLon,
+      ])
+        .addTo(this.map)
+        .bindPopup('Pick Up');
+      dropOffMarker.setIcon(redIcon);
     } catch (error) {
       this.toast.presentToast('bottom', 'Cannot show map, please retry');
-      console.error(error)
+      console.error(error);
     }
-    
-    
   }
 
   async getDestinationLocationData(): Promise<any> {
@@ -100,8 +120,8 @@ export class SoloBookingConfirmationPage implements OnInit, AfterViewInit  {
       return Promise.resolve(response);
     } catch (error) {
       this.toast.presentToast('bottom', 'Cannot get location, please retry');
-      this.location.back()
-      console.error(error)
+      this.location.back();
+      console.error(error);
     }
   }
 
@@ -114,46 +134,44 @@ export class SoloBookingConfirmationPage implements OnInit, AfterViewInit  {
     return locationFormatted;
   }
 
-  async addBooking(){
+  async addBooking() {
+    if (this.bookingObj.useType !== 'booking') {
+      return;
+    }
     try {
-      this.loaderService.show('Confirming booking')
+      this.loaderService.show('Confirming booking');
       const data = {
-        uid:'sampleUid',
-        name:'samplename',
-        pickup:this.bookingObj?.pickUp,
-        pickUpCoords:{
-          lon:this.bookingObj?.pickUpCoordsLon,
-          lat:this.bookingObj?.pickUpCoordsLat,
-  
+        uid: 'sampleUid',
+        name: 'samplename',
+        pickup: this.bookingObj?.pickUp,
+        pickUpCoords: {
+          lon: this.bookingObj?.pickUpCoordsLon,
+          lat: this.bookingObj?.pickUpCoordsLat,
         },
-        dropOff:this.getLocation?.display_name,
-        dropOffCoords:{
-          lon:this.getLocation?.lon,
-          lat:this.getLocation?.lat,
-  
+        dropOff: this.getLocation?.display_name,
+        dropOffCoords: {
+          lon: this.getLocation?.lon,
+          lat: this.getLocation?.lat,
         },
-        status:'pending',
-        remarks:'sampleRemarks',
-        date:new Date().toLocaleString(),
-        pickUpTime:'samplePickTIme',
-        dropOffTime:'sampleDropoffTIme',
-        driver:'', 
-        type:this.bookingObj?.type
-      }
-      const addData = await this.firebaseService.addData(data,'booking')
-      if(addData.status === 200){
-        this.toast.presentToast('bottom', addData.message)
-        this.router.navigate(['/booking-list'])
+        status: 'pending',
+        remarks: 'sampleRemarks',
+        date: new Date().toLocaleString(),
+        pickUpTime: 'samplePickTIme',
+        dropOffTime: 'sampleDropoffTIme',
+        driver: '',
+        type: this.bookingObj?.type,
+      };
+      const addData = await this.firebaseService.addData(data, 'booking');
+      if (addData.status === 200) {
+        this.toast.presentToast('bottom', addData.message);
+        this.router.navigate(['/booking-list']);
       }
     } catch (error) {
-      console.error(error)
-      this.loaderService.hide()
-      throw error
-    }finally{
-      this.loaderService.hide()
+      console.error(error);
+      this.loaderService.hide();
+      throw error;
+    } finally {
+      this.loaderService.hide();
     }
-
   }
-
-  
 }

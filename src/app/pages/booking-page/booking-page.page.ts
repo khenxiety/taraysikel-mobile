@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule,  } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GeolocationService } from 'src/app/services/geolocation.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -20,7 +20,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 export class BookingPagePage implements OnInit {
   private decimalPipe = new DecimalPipe('en-US');
 
-  private currentLoc:any
+  private currentLoc: any;
   public popularDestinations: any[] = [
     {
       id: 1,
@@ -62,9 +62,9 @@ export class BookingPagePage implements OnInit {
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private geolocation: GeolocationService,
-    private loaderService:LoaderService,
-    private router:Router,
-    private toast:ToastService
+    private loaderService: LoaderService,
+    private router: Router,
+    private toast: ToastService
   ) {
     this.id = this.activatedRoute.snapshot.params['id'];
   }
@@ -80,7 +80,7 @@ export class BookingPagePage implements OnInit {
     try {
       const currentLocation = await this.geolocation.getGeolocation();
 
-      this.currentLoc = currentLocation
+      this.currentLoc = currentLocation;
       const response = await this.geolocation.searchLocation(
         this.destination[0]?.query
       );
@@ -90,7 +90,10 @@ export class BookingPagePage implements OnInit {
       this.getLocation = response;
       return Promise.resolve(response);
     } catch (error) {
-      this.toast.presentToast('bottom','Cannot get location, please try again')
+      this.toast.presentToast(
+        'bottom',
+        'Cannot get location, please try again'
+      );
     }
   }
 
@@ -107,8 +110,7 @@ export class BookingPagePage implements OnInit {
     return locationFormatted;
   }
 
-  book(){
-
+  book() {
     const bookingObj = {
       pickUp: this.currentLoc?.display_name,
       pickUpCoordsLon: this.currentLoc.lon,
@@ -116,8 +118,9 @@ export class BookingPagePage implements OnInit {
       dropOff: this.getLocation?.display_name,
       type: 'solo',
       booker: 'random id',
+      useType: 'booking',
     };
-  
+
     this.router.navigate(['/solo-booking-confirmation'], {
       queryParams: bookingObj,
     });

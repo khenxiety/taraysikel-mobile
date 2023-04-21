@@ -32,7 +32,7 @@ export class SoloBookingPagePage implements OnInit {
   ) {}
 
   ngOnInit() {}
-  
+
   async setCurrentLocation(): Promise<any> {
     try {
       this.loadingService.show();
@@ -53,10 +53,13 @@ export class SoloBookingPagePage implements OnInit {
 
   onClick() {
     if (!this.pickUp || !this.dropOff || !this.type) {
-      this.toast.presentToast('bottom', 'Please fill all required booking details');
+      this.toast.presentToast(
+        'bottom',
+        'Please fill all required booking details'
+      );
       return;
     }
-    
+
     const bookingObj = {
       pickUp: this.pickUp,
       pickUpCoordsLon: this.pickUpCoordsLon,
@@ -64,26 +67,22 @@ export class SoloBookingPagePage implements OnInit {
       dropOff: this.dropOff,
       type: this.type,
       booker: 'random id',
+      useType: 'booking',
     };
-  
+
     this.router.navigate(['/solo-booking-confirmation'], {
       queryParams: bookingObj,
     });
-    this.reset()
-
+    this.reset();
   }
-  
 
-  
-
-  reset(){
+  reset() {
     Object.assign(this, {
-        pickUp: '',
-        dropOff: '',
-        type: '',
-        pickUpCoordsLon: '',
-        pickUpCoordsLat: ''
+      pickUp: '',
+      dropOff: '',
+      type: '',
+      pickUpCoordsLon: '',
+      pickUpCoordsLat: '',
     });
   }
-  
 }

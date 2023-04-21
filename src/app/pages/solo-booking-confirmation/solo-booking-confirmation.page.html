@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div #map id="map" ></div>
+  <div #map id="map"></div>
 
   <ion-list>
     <ion-item-group>
@@ -18,14 +18,26 @@
 
       <ion-item>
         <div class="item ion-padding-vertical">
-          <ion-label>Pickup: <ion-icon name="location" style="color:rgb(194, 66, 66);" ></ion-icon></ion-label>
+          <ion-label
+            >Pickup:
+            <ion-icon name="location" style="color: rgb(194, 66, 66)"></ion-icon
+          ></ion-label>
           <small>{{bookingObj.pickUp}}</small>
         </div>
       </ion-item>
       <ion-item>
         <div class="item ion-padding-vertical">
-          <ion-label>Drop off: <ion-icon name="location" style="color:rgb(69, 130, 201);"></ion-icon></ion-label>
-          <small *ngIf="getLocation">{{getLocation?.display_name.split(',').slice(0, -3).join(',')}}</small>
+          <ion-label
+            >Drop off:
+            <ion-icon
+              name="location"
+              style="color: rgb(69, 130, 201)"
+            ></ion-icon
+          ></ion-label>
+          <small *ngIf="getLocation"
+            >{{getLocation?.display_name.split(',').slice(0,
+            -3).join(',')}}</small
+          >
           <ion-skeleton-text
             *ngIf="!getLocation"
             [animated]="true"
@@ -35,7 +47,9 @@
       </ion-item>
       <ion-item>
         <ion-label>Distance: </ion-label>
-        <small *ngIf="getLocation">{{getLocation?.distanceFromCurrent | number:'1.2-2' }} km</small>
+        <small *ngIf="getLocation"
+          >{{getLocation?.distanceFromCurrent | number:'1.2-2' }} km</small
+        >
         <ion-skeleton-text
           *ngIf="!getLocation"
           [animated]="true"
@@ -44,12 +58,29 @@
       </ion-item>
       <ion-item lines="none">
         <ion-label>Estimated time:</ion-label>
-        <small *ngIf="getLocation" >{{time}}</small>
+        <small *ngIf="getLocation">{{time}}</small>
         <ion-skeleton-text
           *ngIf="!getLocation"
           [animated]="true"
           style="width: 100%"
         ></ion-skeleton-text>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="bookingObj.useType ==='details'">
+      <ion-item-divider>
+        <ion-label> Status </ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <ion-label>Status: </ion-label>
+        <small>{{bookingObj?.status}}</small>
+      </ion-item>
+      <ion-item>
+        <ion-label>Driver: </ion-label>
+        <small
+          >{{ bookingObj.driver ===''? bookingObj?.status:
+          bookingObj.driver}}</small
+        >
       </ion-item>
     </ion-item-group>
 
@@ -83,10 +114,18 @@
     </ion-item-group>
 
     <ion-item lines="none">
-      <ion-button style="width: 100%" (click)="addBooking()">Confirm Booking</ion-button>
+      <ion-button
+        style="width: 100%"
+        (click)="addBooking()"
+        *ngIf="bookingObj.useType ==='booking'"
+        >Confirm Booking</ion-button
+      >
+      <ion-button
+        style="width: 100%"
+        (click)="back()"
+        *ngIf="bookingObj.useType ==='details'"
+        >Back</ion-button
+      >
     </ion-item>
-
   </ion-list>
-
-  
 </ion-content>
