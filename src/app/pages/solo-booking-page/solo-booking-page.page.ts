@@ -8,6 +8,7 @@ import { LoaderService } from 'src/app/services/loader/loader.service';
 import { Helper } from 'src/app/helpers/helper';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { IonicStorageService } from 'src/app/services/ionic-storage.service';
 
 @Component({
   selector: 'app-solo-booking-page',
@@ -28,7 +29,8 @@ export class SoloBookingPagePage implements OnInit {
     private geolocation: GeolocationService,
     private toast: ToastService,
     private loadingService: LoaderService,
-    private router: Router
+    private router: Router,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -51,7 +53,7 @@ export class SoloBookingPagePage implements OnInit {
     }
   }
 
-  onClick() {
+  async onClick() {
     if (!this.pickUp || !this.dropOff || !this.type) {
       this.toast.presentToast(
         'bottom',
@@ -59,21 +61,28 @@ export class SoloBookingPagePage implements OnInit {
       );
       return;
     }
+    try {
+      const data = await this.ionicStorageService.getItem('user');
 
-    const bookingObj = {
-      pickUp: this.pickUp,
-      pickUpCoordsLon: this.pickUpCoordsLon,
-      pickUpCoordsLat: this.pickUpCoordsLat,
-      dropOff: this.dropOff,
-      type: this.type,
-      booker: 'random id',
-      useType: 'booking',
-    };
+      const parsedData = JSON.parse(data);
 
-    this.router.navigate(['/solo-booking-confirmation'], {
-      queryParams: bookingObj,
-    });
-    this.reset();
+      const bookingObj = {
+        pickUp: this.pickUp,
+        pickUpCoordsLon: this.pickUpCoordsLon,
+        pickUpCoordsLat: this.pickUpCoordsLat,
+        dropOff: this.dropOff,
+        type: this.type,
+        booker: parsedData?.user.uid,
+        useType: 'booking',
+      };
+
+      this.router.navigate(['/solo-booking-confirmation'], {
+        queryParams: bookingObj,
+      });
+      this.reset();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   reset() {

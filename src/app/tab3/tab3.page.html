@@ -10,7 +10,7 @@
       <div class="icon">
         <ion-icon slot="start" name="person-circle"></ion-icon>
       </div>
-      <ion-label color="dark">Username</ion-label>
+      <ion-label color="dark">{{current?.user.displayName}}</ion-label>
     </ion-item>
   </ion-list>
 
@@ -23,7 +23,10 @@
         <ion-icon slot="start" name="moon-sharp"></ion-icon>
       </div>
       <ion-label color="dark">Dark mode</ion-label>
-      <ion-toggle slot="end"></ion-toggle>
+      <ion-toggle
+        (ionChange)="onToggleColorTheme ($event)"
+        slot="end"
+      ></ion-toggle>
     </ion-item>
     <ion-item>
       <div class="icon">

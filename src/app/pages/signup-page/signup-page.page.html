@@ -16,10 +16,39 @@
             <h1 class="ion-no-margin">Create Account</h1>
             <small style="color: white">Already registered?</small>
             <br />
-            <a (click)="navigate('/')">Login here</a>
+            <a (click)="navigate()">Login here</a>
           </div>
         </ion-list-header>
 
+        <ion-item lines="none">
+          <div class="input-container">
+            <label for="">Fullname</label>
+            <div class="input ion-padding-start">
+              <ion-input
+                formControlName="fullName"
+                type="text"
+                class=""
+                [clearInput]="true"
+              >
+              </ion-input>
+            </div>
+          </div>
+        </ion-item>
+
+        <ion-item lines="none">
+          <div class="input-container">
+            <label for="">Email</label>
+            <div class="input ion-padding-start">
+              <ion-input
+                formControlName="email"
+                type="text"
+                class=""
+                [clearInput]="true"
+              >
+              </ion-input>
+            </div>
+          </div>
+        </ion-item>
         <ion-item lines="none">
           <div class="input-container">
             <label for="">Phone number</label>

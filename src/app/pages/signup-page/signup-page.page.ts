@@ -22,6 +22,8 @@ import { RegistrationService } from 'src/app/services/registration/registration.
 })
 export class SignupPagePage implements OnInit {
   public loginForm: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.required]),
+    fullName: new FormControl('', [Validators.required]),
     phoneNumber: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
@@ -36,7 +38,7 @@ export class SignupPagePage implements OnInit {
     private location: Location,
     private toast: ToastService,
     private loadingService: LoaderService,
-    private registeratioNService:RegistrationService
+    private registeratioNService: RegistrationService
   ) {}
 
   ngOnInit() {
@@ -46,40 +48,60 @@ export class SignupPagePage implements OnInit {
   async onClick() {
     this.loadingService.show('Registering...');
     const { phoneNumber, password } = this.loginForm.controls;
-    // if (!this.loginForm.valid) {
-    //   this.toast.presentToast('bottom', 'Please fill up the fields');
-    //   setTimeout(() => {
-    //     this.loadingService.hide();
-    //   }, 300);
+    const data = {
+      ...this.loginForm.value,
+      role: 'user',
+    };
+    if (!this.loginForm.valid) {
+      this.toast.presentToast('bottom', 'Please fill up the fields');
+      setTimeout(() => {
+        this.loadingService.hide();
+      }, 300);
 
-    //   return;
-    // }
-    // if (this.progressValue < 0.66) {
-    //   const message =
-    //     this.progressText.toLowerCase() === 'very weak'
-    //       ? this.progressText.toLowerCase()
-    //       : `too ${this.progressText.toLowerCase()}`;
-    //   setTimeout(() => {
-    //     this.loadingService.hide();
-    //   }, 300);
-    //   this.toast.presentToast('bottom', `Password is ${message}`);
-    //   return;
-    // }
-    try {
-      const register = await this.registeratioNService.registerWithPhoneNumber('09770580597')
-      console.log(register)
-      console.log(phoneNumber.value, password.value);
-    // this.router.navigate(['/tabs']);
-    this.toast.presentToast('bottom', 'Registration successful');
-    } catch (error) {
-      console.log(error)
-      this.loadingService.hide();
-      
+      return;
     }
-    
+    if (this.progressValue < 0.66) {
+      const message =
+        this.progressText.toLowerCase() === 'very weak'
+          ? this.progressText.toLowerCase()
+          : `too ${this.progressText.toLowerCase()}`;
+      setTimeout(() => {
+        this.loadingService.hide();
+      }, 300);
+      this.toast.presentToast('bottom', `Password is ${message}`);
+      return;
+    }
+
+    try {
+      const register = await this.registeratioNService.userSignup(
+        this.loginForm
+      );
+      if (register.status === 200) {
+        this.loginForm.reset();
+        this.toast.presentToast('bottom', `${register.message}`);
+        this.navigate();
+      }
+    } catch (error) {
+      this.toast.presentToast('bottom', `Cannot register, please retry`);
+    } finally {
+      this.loadingService.hide();
+    }
+
+    // try {
+    //   const register = await this.registeratioNService.registerWithPhoneNumber(
+    //     '09770580597'
+    //   );
+    //   console.log(register);
+    //   console.log(phoneNumber.value, password.value);
+    //   // this.router.navigate(['/tabs']);
+    //   this.toast.presentToast('bottom', 'Registration successful');
+    // } catch (error) {
+    //   console.log(error);
+    //   this.loadingService.hide();
+    // }
   }
 
-  navigate(route: string) {
+  navigate() {
     this.location.back();
   }
 

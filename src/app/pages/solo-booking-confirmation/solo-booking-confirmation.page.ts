@@ -18,6 +18,7 @@ import { MapComponent } from 'src/app/components/map/map.component';
 import * as L from 'leaflet';
 import { environment } from 'src/environments/environment';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { IonicStorageService } from 'src/app/services/ionic-storage.service';
 @Component({
   selector: 'app-solo-booking-confirmation',
   templateUrl: './solo-booking-confirmation.page.html',
@@ -46,7 +47,8 @@ export class SoloBookingConfirmationPage implements OnInit, AfterViewInit {
     private firebaseService: FirebaseService,
     private loaderService: LoaderService,
     private toast: ToastService,
-    private location: Location
+    private location: Location,
+    private ionicStorageService: IonicStorageService
   ) {
     const myObject = this.route.snapshot.queryParams;
     this.bookingObj = myObject;
@@ -140,9 +142,12 @@ export class SoloBookingConfirmationPage implements OnInit, AfterViewInit {
     }
     try {
       this.loaderService.show('Confirming booking');
+      const user = await this.ionicStorageService.getItem('user');
+
+      const parsedData = JSON.parse(user);
       const data = {
-        uid: 'sampleUid',
-        name: 'samplename',
+        uid: parsedData?.user.uid,
+        name: parsedData?.user.displayName,
         pickup: this.bookingObj?.pickUp,
         pickUpCoords: {
           lon: this.bookingObj?.pickUpCoordsLon,
@@ -154,11 +159,12 @@ export class SoloBookingConfirmationPage implements OnInit, AfterViewInit {
           lat: this.getLocation?.lat,
         },
         status: 'pending',
-        remarks: 'sampleRemarks',
+        remarks: '',
         date: new Date().toLocaleString(),
-        pickUpTime: 'samplePickTIme',
-        dropOffTime: 'sampleDropoffTIme',
+        pickUpTime: '',
+        dropOffTime: '',
         driver: '',
+        driverUid: '',
         type: this.bookingObj?.type,
       };
       const addData = await this.firebaseService.addData(data, 'booking');
