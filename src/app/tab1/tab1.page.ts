@@ -75,26 +75,57 @@ export class Tab1Page {
     },
     {
       id: 2,
-      img: 'assets/basilica.jpg',
+      img: 'assets/galleria.jpg',
       title: 'Galleria',
       route: '/booking-page',
       query: 'Taal Galleria',
     },
     {
       id: 3,
-      img: 'assets/basilica.jpg',
-      title: 'Municipal',
+      img: 'assets/museo.jpg',
+      title: 'Museo Apacible',
       route: '/booking-page',
-      query: 'Taal municipal hall',
+      query: 'Museo Apacible',
     },
     {
       id: 4,
-      img: 'assets/basilica.jpg',
-      title: 'Taal',
+      img: 'assets/marcella.jpg',
+      title: 'Marcela Agoncillo Museum',
       route: '/booking-page',
-      query: 'Taal Basilica',
+      query: 'Marcela Agoncillo Museum',
+    },
+    {
+      id: 5,
+      img: 'assets/casa.jpg',
+      title: 'Casa Real',
+      route: '/booking-page',
+      query: 'Casa Real',
     },
   ];
+
+  public exploreDestinations:any[]=[
+    {
+      id: 6,
+      img: 'assets/destination-sample.png',
+      title: 'Paradores Del Castillo',
+      route: '/booking-page',
+      query: 'Paradores Del Castillo',
+    },
+    {
+      id: 7,
+      img: 'assets/butong.jpg',
+      title: 'Butong Seaside',
+      route: '/booking-page',
+      query: 'Butong Seaside',
+    },
+    {
+      id: 8,
+      img: 'assets/farmville.jpg',
+      title: "Maranan's Farmville",
+      route: '/booking-page',
+      query: "Maranan's Farmville",
+    },
+  ]
 
   public searchForm: FormGroup = new FormGroup({
     searchValue: new FormControl('', Validators.required),

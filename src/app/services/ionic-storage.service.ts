@@ -31,4 +31,14 @@ export class IonicStorageService {
       throw error;
     }
   }
+
+  async clearStorage() {
+    try {
+      await this.storage.create();
+      const item = await this.storage.clear();
+      return item;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

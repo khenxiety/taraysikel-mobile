@@ -16,12 +16,13 @@ import {
   ref,
   get,
 } from '@angular/fire/database';
+import { IonicStorageService } from '../ionic-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegistrationService {
-  constructor(private auth: Auth, private db: Database) {}
+  constructor(private auth: Auth, private db: Database, private ionicStorageService:IonicStorageService) {}
 
   async registerWithPhoneNumber(phoneNumber: string): Promise<any> {
     const appVerifier = await this.getRecaptchaVerifier();
@@ -140,6 +141,7 @@ export class RegistrationService {
 
   async userLogout(): Promise<any> {
     try {
+      const clearStorage =await this.ionicStorageService.clearStorage()
       const signout = await this.auth.signOut();
       return signout;
     } catch (error) {

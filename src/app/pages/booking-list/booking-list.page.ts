@@ -6,6 +6,7 @@ import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Router } from '@angular/router';
+import { IonicStorageService } from 'src/app/services/ionic-storage.service';
 
 @Component({
   selector: 'app-booking-list',
@@ -25,7 +26,8 @@ export class BookingListPage implements OnInit {
     'This modal example uses triggers to automatically open a modal when the button is clicked.';
   constructor(
     private firebaseService: FirebaseService,
-    private router: Router
+    private router: Router,
+    private ionicStorageService:IonicStorageService
   ) {}
 
   ngOnInit() {
@@ -49,7 +51,10 @@ export class BookingListPage implements OnInit {
 
   async getBookingData() {
     try {
-      this.firebaseService.getDataSnapshot('booking').subscribe((res) => {
+
+      const user = await this.ionicStorageService.getItem('user'); 
+      const parsedData = JSON.parse(user);
+      this.firebaseService.getDataById(parsedData?.user.uid).subscribe((res) => {
         const newArr = Object.keys(res.data).map((key) => res.data[key]);
         this.bookingData = newArr.sort((a, b) => b.date - a.date);
         this.bookingData.sort((a: any, b: any) => {

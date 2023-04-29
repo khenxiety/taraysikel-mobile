@@ -7,6 +7,8 @@ import {
 import { Auth } from '@angular/fire/auth';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageService } from '../services/ionic-storage.service';
+import { RegistrationService } from '../services/registration/registration.service';
+import { ToastService } from '../services/toast/toast.service';
 
 @Component({
   selector: 'app-tab3',
@@ -20,7 +22,9 @@ export class Tab3Page implements OnInit, AfterViewInit {
   public current: any;
   constructor(
     private auth: Auth,
-    private ionicStorageService: IonicStorageService
+    private authService:RegistrationService,
+    private ionicStorageService: IonicStorageService,
+    private toast:ToastService
   ) {}
 
   ngOnInit() {
@@ -53,5 +57,18 @@ export class Tab3Page implements OnInit, AfterViewInit {
     if (event.detail.checked) {
       document.body.setAttribute('color-theme', 'dark');
     } else document.body.setAttribute('color-theme', 'light');
+  }
+
+
+  async logout(){
+
+    try {
+      const logout = await this.authService.userLogout()
+
+      this.toast.presentToast('bottom','User logout successfully')
+    } catch (error) { 
+      throw error
+    }
+
   }
 }

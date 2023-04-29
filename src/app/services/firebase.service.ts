@@ -171,6 +171,38 @@ export class FirebaseService {
     );
   }
 
+  getDataById(uid: string): Observable<any> {
+    const dbInstance = ref(this.db, 'booking/');
+    const sortedData = query(dbInstance, orderByChild('uid'));
+    const filteredData = query(sortedData, equalTo(uid));
+    return from(
+      get(filteredData)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            return {
+              status: 200,
+              message: 'success',
+              data: snapshot.val(),
+            };
+          } else {
+            return {
+              status: 400,
+              message: 'No data available',
+              data: undefined,
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          return {
+            status: 400,
+            message: 'Error',
+            data: error,
+          };
+        })
+    );
+  }
+
   async addData(data: any, table:string): Promise<any> {
     const dbInstance = ref(this.db, `${table}/`);
 
