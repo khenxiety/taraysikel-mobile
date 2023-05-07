@@ -9,6 +9,7 @@ import { IonicModule } from '@ionic/angular';
 import { IonicStorageService } from '../services/ionic-storage.service';
 import { RegistrationService } from '../services/registration/registration.service';
 import { ToastService } from '../services/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab3',
@@ -24,7 +25,8 @@ export class Tab3Page implements OnInit, AfterViewInit {
     private auth: Auth,
     private authService:RegistrationService,
     private ionicStorageService: IonicStorageService,
-    private toast:ToastService
+    private toast:ToastService,
+    private router:Router
   ) {}
 
   ngOnInit() {
@@ -64,6 +66,8 @@ export class Tab3Page implements OnInit, AfterViewInit {
 
     try {
       const logout = await this.authService.userLogout()
+      console.log(logout)
+      this.router.navigate(['/'])
 
       this.toast.presentToast('bottom','User logout successfully')
     } catch (error) { 

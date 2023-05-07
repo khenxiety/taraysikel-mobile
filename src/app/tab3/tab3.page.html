@@ -60,8 +60,8 @@
     </ion-item>
     <ion-row>
       <ion-col style="display: flex; justify-content: center">
-        <ion-button>
-          <ion-icon slot="start" name="log-out" [expand]="'block'"></ion-icon>
+        <ion-button (click)="logout()">
+          <ion-icon slot="start" name="log-out" [expand]="'block'" ></ion-icon>
           Sign Out
         </ion-button>
       </ion-col>

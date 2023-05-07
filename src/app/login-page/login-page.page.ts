@@ -51,10 +51,11 @@ export class LoginPagePage implements OnInit {
         this.loginForm.reset();
         this.router.navigate(['/tabs']);
         this.toast.presentToast('bottom', 'Login success');
-        console.log(login);
       }
     } catch (error) {
       this.toast.presentToast('bottom', 'Login failed');
+      this.loaderService.hide();
+
     } finally {
       this.loaderService.hide();
     }

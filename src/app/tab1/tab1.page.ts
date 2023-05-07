@@ -3,6 +3,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   IonicModule,
   LoadingController,
+  Platform,
   ToastController,
 } from '@ionic/angular';
 import { SliderPage } from '../components/slider/slider.page';
@@ -136,9 +137,14 @@ export class Tab1Page {
     private router: Router,
     private location: GeolocationService,
     private toast: ToastService,
-    private loadingService: LoaderService
+    private loadingService: LoaderService,
+    private platform:Platform
   ) {
-    this.getCurrentLocation();
+
+    this.platform.ready().then(res =>{
+      this.getCurrentLocation();
+    })
+
     setTimeout(() => {
       this.loadingService.hide();
     }, 300);
@@ -202,8 +208,6 @@ export class Tab1Page {
     } catch (error) {
       this.toast.presentToast('bottom', 'Cannot get location');
       this.loadingService.hide();
-
-      console.error(error);
     }
   }
 
