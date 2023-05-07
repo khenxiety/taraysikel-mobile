@@ -22,8 +22,8 @@ import { from, Observable } from 'rxjs';
 export class FirebaseService {
   constructor(private db: Database) { }
 
-  getDataSnapshot(): Observable<any> {
-    const dbInstance = ref(this.db, 'data/');
+  getDataSnapshot(table:string): Observable<any> {
+    const dbInstance = ref(this.db, `${table}/`);
 
     return from(
       get(dbInstance)
@@ -143,6 +143,38 @@ export class FirebaseService {
     const dbInstance = ref(this.db, 'data/');
     const sortedData = query(dbInstance, orderByChild('name'));
     const filteredData = query(sortedData, equalTo(name));
+    return from(
+      get(filteredData)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            return {
+              status: 200,
+              message: 'success',
+              data: snapshot.val(),
+            };
+          } else {
+            return {
+              status: 400,
+              message: 'No data available',
+              data: undefined,
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          return {
+            status: 400,
+            message: 'Error',
+            data: error,
+          };
+        })
+    );
+  }
+
+  getDataById(uid: string): Observable<any> {
+    const dbInstance = ref(this.db, 'booking/');
+    const sortedData = query(dbInstance, orderByChild('uid'));
+    const filteredData = query(sortedData, equalTo(uid));
     return from(
       get(filteredData)
         .then((snapshot) => {

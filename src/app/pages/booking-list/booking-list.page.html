@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs"></ion-back-button>
+    </ion-buttons>
+    <ion-title>My Bookings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row *ngFor="let books of bookingData">
+      <ion-col class="ion-no-padding">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{books?.type}} Booking</ion-card-title>
+            <ion-card-subtitle>Status: {{books?.status}}</ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-card-subtitle>
+              <span style="font-weight: 400">PickUp:</span>
+              {{books?.pickup.split(',')[0]}}</ion-card-subtitle
+            >
+            <ion-card-subtitle
+              ><span style="font-weight: 400">DropOff:</span>
+              {{books?.dropOff.split(',')[0]}}</ion-card-subtitle
+            >
+            <small>{{books?.date}}</small>
+          </ion-card-content>
+          <div class="card-footer">
+            <ion-button
+              id="open-modal"
+              style="--ion-color-primary: #ff904d"
+              (click)="viewDetails(books)"
+              >Details</ion-button
+            >
+            <ion-button fill="clear" color="danger">Cancel</ion-button>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Solo</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Enter your name</ion-label>
+          <ion-input
+            type="text"
+            placeholder="Your name"
+            [(ngModel)]="name"
+          ></ion-input>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

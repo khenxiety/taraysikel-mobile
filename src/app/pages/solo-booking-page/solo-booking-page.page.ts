@@ -7,6 +7,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { Helper } from 'src/app/helpers/helper';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { IonicStorageService } from 'src/app/services/ionic-storage.service';
 
 @Component({
   selector: 'app-solo-booking-page',
@@ -20,40 +22,29 @@ export class SoloBookingPagePage implements OnInit {
   public pickUp: string = '';
   public pickUpCoordsLon: any;
   public pickUpCoordsLat: any;
-
   public dropOff: string = '';
   public type: string = '';
 
   constructor(
     private geolocation: GeolocationService,
-    private toast: ToastController,
+    private toast: ToastService,
     private loadingService: LoaderService,
-    private router: Router
+    private router: Router,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngOnInit() {}
 
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: any) {
-    const toast = await this.toast.create({
-      message: message,
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
-  }
-  
   async setCurrentLocation(): Promise<any> {
     try {
       this.loadingService.show();
       const geoposition = await this.geolocation.getGeolocation();
       const { display_name, lat, lon } = geoposition;
-      console.log(geoposition);
       this.pickUp = Helper.extractAddress(display_name);
       this.pickUpCoordsLon = lon;
       this.pickUpCoordsLat = lat;
     } catch (error) {
-      this.presentToast('bottom', 'Cannot get location');
+      this.toast.presentToast('bottom', 'Cannot get location');
       this.loadingService.hide();
 
       console.error(error);
@@ -62,39 +53,45 @@ export class SoloBookingPagePage implements OnInit {
     }
   }
 
-  onClick() {
+  async onClick() {
     if (!this.pickUp || !this.dropOff || !this.type) {
-      this.presentToast('bottom', 'Please fill all required booking details');
+      this.toast.presentToast(
+        'bottom',
+        'Please fill all required booking details'
+      );
       return;
     }
-    
-    const bookingObj = {
-      pickUp: this.pickUp,
-      pickUpCoordsLon: this.pickUpCoordsLon,
-      pickUpCoordsLat: this.pickUpCoordsLat,
-      dropOff: this.dropOff,
-      type: this.type,
-      booker: 'random id',
-    };
-  
-    this.router.navigate(['/solo-booking-confirmation'], {
-      queryParams: bookingObj,
-    });
-    this.reset()
+    try {
+      const data = await this.ionicStorageService.getItem('user');
 
+      const parsedData = JSON.parse(data);
+
+      const bookingObj = {
+        pickUp: this.pickUp,
+        pickUpCoordsLon: this.pickUpCoordsLon,
+        pickUpCoordsLat: this.pickUpCoordsLat,
+        dropOff: this.dropOff,
+        type: this.type,
+        booker: parsedData?.user.uid,
+        useType: 'booking',
+      };
+
+      this.router.navigate(['/solo-booking-confirmation'], {
+        queryParams: bookingObj,
+      });
+      this.reset();
+    } catch (error) {
+      console.error(error);
+    }
   }
-  
 
-  
-
-  reset(){
+  reset() {
     Object.assign(this, {
-        pickUp: '',
-        dropOff: '',
-        type: '',
-        pickUpCoordsLon: '',
-        pickUpCoordsLat: ''
+      pickUp: '',
+      dropOff: '',
+      type: '',
+      pickUpCoordsLon: '',
+      pickUpCoordsLat: '',
     });
   }
-  
 }

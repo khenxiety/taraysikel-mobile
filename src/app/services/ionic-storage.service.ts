@@ -10,10 +10,11 @@ export class IonicStorageService {
   async setItem(items: any, key: string) {
     try {
       await this.storage.create();
-      const item =
-        typeof items === 'object' ? JSON.stringify(await items) : await items;
-      console.log(item);
-      const set = await this.storage.set(key, JSON.stringify(items));
+      // const item =
+      //   typeof items === 'object' ? JSON.stringify(await items) : await items;
+      // console.log(item);
+      console.log(items);
+      const set = await this.storage.set(key, items);
 
       return set;
     } catch (error) {
@@ -23,7 +24,18 @@ export class IonicStorageService {
 
   async getItem(key: string) {
     try {
+      await this.storage.create();
       const item = await this.storage.get(key);
+      return item;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async clearStorage() {
+    try {
+      await this.storage.create();
+      const item = await this.storage.clear();
       return item;
     } catch (error) {
       throw error;

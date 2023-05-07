@@ -38,5 +38,9 @@ export const routes: Routes = [
     path: 'solo-booking-confirmation',
     loadComponent: () => import('./pages/solo-booking-confirmation/solo-booking-confirmation.page').then( m => m.SoloBookingConfirmationPage)
   },
+  {
+    path: 'booking-list',
+    loadComponent: () => import('./pages/booking-list/booking-list.page').then( m => m.BookingListPage)
+  },
 
 ];

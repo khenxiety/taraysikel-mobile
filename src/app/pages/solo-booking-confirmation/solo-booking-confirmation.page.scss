@@ -3,3 +3,20 @@ ion-button{
     width: 100%;
     height: 45px;
 }
+#map {
+    height: 33%;
+    width: 100%;
+    object-fit: cover;
+
+    ::ng-deep .leaflet-control-attribution {
+        a{
+            display: none;
+        }
+    }
+  }
+
+  ion-toolbar {
+    --background: #3f72af;
+
+    --color:var(--ion-color-primary-contrast);
+  }

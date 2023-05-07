@@ -10,6 +10,8 @@ import {
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/services/loader/loader.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { RegistrationService } from 'src/app/services/registration/registration.service';
 
 @Component({
   selector: 'app-signup-page',
@@ -20,6 +22,8 @@ import { LoaderService } from 'src/app/services/loader/loader.service';
 })
 export class SignupPagePage implements OnInit {
   public loginForm: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.required]),
+    fullName: new FormControl('', [Validators.required]),
     phoneNumber: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
@@ -32,19 +36,24 @@ export class SignupPagePage implements OnInit {
   constructor(
     private router: Router,
     private location: Location,
-    private toast: ToastController,
-    private loadingService: LoaderService
+    private toast: ToastService,
+    private loadingService: LoaderService,
+    private registeratioNService: RegistrationService
   ) {}
 
   ngOnInit() {
     this.formInitialise();
   }
 
-  onClick(): void {
+  async onClick() {
     this.loadingService.show('Registering...');
     const { phoneNumber, password } = this.loginForm.controls;
+    const data = {
+      ...this.loginForm.value,
+      role: 'user',
+    };
     if (!this.loginForm.valid) {
-      this.presentToast('bottom', 'Please fill up the fields');
+      this.toast.presentToast('bottom', 'Please fill up the fields');
       setTimeout(() => {
         this.loadingService.hide();
       }, 300);
@@ -59,27 +68,41 @@ export class SignupPagePage implements OnInit {
       setTimeout(() => {
         this.loadingService.hide();
       }, 300);
-      this.presentToast('bottom', `Password is ${message}`);
+      this.toast.presentToast('bottom', `Password is ${message}`);
       return;
     }
-    console.log(phoneNumber.value, password.value);
-    this.loadingService.hide();
-    this.router.navigate(['/tabs']);
-    this.presentToast('bottom', 'Registration successful');
+
+    try {
+      const register = await this.registeratioNService.userSignup(
+        this.loginForm
+      );
+      if (register.status === 200) {
+        this.loginForm.reset();
+        this.toast.presentToast('bottom', `${register.message}`);
+        this.navigate();
+      }
+    } catch (error) {
+      this.toast.presentToast('bottom', `Cannot register, please retry`);
+    } finally {
+      this.loadingService.hide();
+    }
+
+    // try {
+    //   const register = await this.registeratioNService.registerWithPhoneNumber(
+    //     '09770580597'
+    //   );
+    //   console.log(register);
+    //   console.log(phoneNumber.value, password.value);
+    //   // this.router.navigate(['/tabs']);
+    //   this.toast.presentToast('bottom', 'Registration successful');
+    // } catch (error) {
+    //   console.log(error);
+    //   this.loadingService.hide();
+    // }
   }
 
-  navigate(route: string) {
+  navigate() {
     this.location.back();
-  }
-
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
-    const toast = await this.toast.create({
-      message: message,
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
   }
 
   formInitialise() {

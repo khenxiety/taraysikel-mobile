@@ -3,6 +3,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   IonicModule,
   LoadingController,
+  Platform,
   ToastController,
 } from '@ionic/angular';
 import { SliderPage } from '../components/slider/slider.page';
@@ -19,6 +20,7 @@ import { DecimalPipe } from '@angular/common';
 import { Helper } from '../helpers/helper';
 
 import { LoaderService } from '../services/loader/loader.service';
+import { ToastService } from '../services/toast/toast.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -45,9 +47,9 @@ export class Tab1Page {
       // action: this.test.bind(this),
     },
     {
-      title: 'Fare',
+      title: 'Bookings',
       logo: 'pricetag-sharp',
-      route: '/',
+      route: '/booking-list',
       // action: this.test.bind(this),
     },
     {
@@ -74,26 +76,57 @@ export class Tab1Page {
     },
     {
       id: 2,
-      img: 'assets/basilica.jpg',
+      img: 'assets/galleria.jpg',
       title: 'Galleria',
       route: '/booking-page',
       query: 'Taal Galleria',
     },
     {
       id: 3,
-      img: 'assets/basilica.jpg',
-      title: 'Municipal',
+      img: 'assets/museo.jpg',
+      title: 'Museo Apacible',
       route: '/booking-page',
-      query: 'Taal municipal hall',
+      query: 'Museo Apacible',
     },
     {
       id: 4,
-      img: 'assets/basilica.jpg',
-      title: 'Taal',
+      img: 'assets/marcella.jpg',
+      title: 'Marcela Agoncillo Museum',
       route: '/booking-page',
-      query: 'Taal Basilica',
+      query: 'Marcela Agoncillo Museum',
+    },
+    {
+      id: 5,
+      img: 'assets/casa.jpg',
+      title: 'Casa Real',
+      route: '/booking-page',
+      query: 'Casa Real',
     },
   ];
+
+  public exploreDestinations:any[]=[
+    {
+      id: 6,
+      img: 'assets/destination-sample.png',
+      title: 'Paradores Del Castillo',
+      route: '/booking-page',
+      query: 'Paradores Del Castillo',
+    },
+    {
+      id: 7,
+      img: 'assets/butong.jpg',
+      title: 'Butong Seaside',
+      route: '/booking-page',
+      query: 'Butong Seaside',
+    },
+    {
+      id: 8,
+      img: 'assets/farmville.jpg',
+      title: "Maranan's Farmville",
+      route: '/booking-page',
+      query: "Maranan's Farmville",
+    },
+  ]
 
   public searchForm: FormGroup = new FormGroup({
     searchValue: new FormControl('', Validators.required),
@@ -103,10 +136,15 @@ export class Tab1Page {
   constructor(
     private router: Router,
     private location: GeolocationService,
-    private toast: ToastController,
-    private loadingService: LoaderService
+    private toast: ToastService,
+    private loadingService: LoaderService,
+    private platform:Platform
   ) {
-    this.getCurrentLocation();
+
+    this.platform.ready().then(res =>{
+      this.getCurrentLocation();
+    })
+
     setTimeout(() => {
       this.loadingService.hide();
     }, 300);
@@ -129,7 +167,7 @@ export class Tab1Page {
                 .split('.')[1]
             } minutes`
           : `${this.decimalPipe.transform(time, '1.2-2')} hours`;
-      this.presentToast(
+      this.toast.presentToast(
         'bottom',
         `${this.decimalPipe.transform(
           response.distanceFromCurrent,
@@ -154,7 +192,7 @@ export class Tab1Page {
 
   navigatePage(route: any) {
     if (route == '/') {
-      this.presentToast('bottom', 'Coming soon');
+      this.toast.presentToast('bottom', 'Coming soon');
 
       return;
     }
@@ -168,21 +206,9 @@ export class Tab1Page {
 
       this.currentPosition = Helper.extractAddress(display_name);
     } catch (error) {
-      this.presentToast('bottom', 'Cannot get location');
+      this.toast.presentToast('bottom', 'Cannot get location');
       this.loadingService.hide();
-
-      console.error(error);
     }
-  }
-
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: any) {
-    const toast = await this.toast.create({
-      message: message,
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
   }
 
   extractAddress(address: string): string {

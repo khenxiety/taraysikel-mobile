@@ -9,6 +9,10 @@ import {
 } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ToastService } from '../services/toast/toast.service';
+import { RegistrationService } from '../services/registration/registration.service';
+import { LoaderService } from '../services/loader/loader.service';
+import { IonicStorageService } from '../services/ionic-storage.service';
 
 @Component({
   selector: 'app-login-page',
@@ -19,38 +23,45 @@ import { Router } from '@angular/router';
 })
 export class LoginPagePage implements OnInit {
   public loginForm: FormGroup = new FormGroup({
-    phoneNumber: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private router: Router, private toast: ToastController) {}
+  constructor(
+    private router: Router,
+    private toast: ToastService,
+    private registrationService: RegistrationService,
+    private loaderService: LoaderService,
+    private ionicStorageService: IonicStorageService
+  ) {}
 
   ngOnInit() {}
 
-  onClick(): void {
-    if (this.loginForm.valid) {
-      console.log(
-        this.loginForm.controls['phoneNumber'].value,
-        this.loginForm.controls['password'].value
-      );
-      this.router.navigate(['/tabs']);
-      this.presentToast('bottom', 'Login success');
-    } else {
-      this.presentToast('bottom', 'Please fill up the fields');
+  async onClick() {
+    if (!this.loginForm.valid) {
+      this.toast.presentToast('bottom', 'Please fill up all the fields');
+
+      return;
+    }
+    try {
+      this.loaderService.show();
+      const login = await this.registrationService.userLogin(this.loginForm);
+      if (login.status === 200) {
+        this.ionicStorageService.setItem(JSON.stringify(login.data), 'user');
+        this.loginForm.reset();
+        this.router.navigate(['/tabs']);
+        this.toast.presentToast('bottom', 'Login success');
+      }
+    } catch (error) {
+      this.toast.presentToast('bottom', 'Login failed');
+      this.loaderService.hide();
+
+    } finally {
+      this.loaderService.hide();
     }
   }
 
   navigate(route: string): void {
     this.router.navigate([route]);
-  }
-
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
-    const toast = await this.toast.create({
-      message: message,
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
   }
 }

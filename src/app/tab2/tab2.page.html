@@ -3,7 +3,7 @@
     <ion-title>Explore Taal</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar></ion-searchbar>
+    <ion-searchbar (ionInput)="handleInput($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -13,4 +13,6 @@
       <ion-title size="large">Tab 2</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div #map2 id="map2"></div>
 </ion-content>
